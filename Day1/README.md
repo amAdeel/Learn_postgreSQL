@@ -9,6 +9,7 @@ C:\Users\AdeelRock>docker --version
 Docker version 27.0.3, build 7d4bcd8
 
 C:\Users\AdeelRock>docker run --name my-postgres -e POSTGRES_USER=adeel -e POSTGRES_PASSWORD=1234 -e POSTGRES_DB=mydatabase -p 5432:5432 -d postgres
+
 Unable to find image 'postgres:latest' locally
 latest: Pulling from library/postgres
 2d429b9e73a6: Pull complete
@@ -30,13 +31,16 @@ Status: Downloaded newer image for postgres:latest
 2332e83dae7e260bcc233caf82d774d06e54e3f00f0fb69a1b79c412f56b4583
 
 C:\Users\AdeelRock>docker ps
+
 CONTAINER ID   IMAGE      COMMAND                  CREATED          STATUS          PORTS                    NAMES
 2332e83dae7e   postgres   "docker-entrypoint.s…"   52 seconds ago   Up 47 seconds   0.0.0.0:5432->5432/tcp   my-postgres
 
 C:\Users\AdeelRock>docker exec -it my-postgres bash
+
 root@2332e83dae7e:/# ls
 bin  boot  dev  docker-entrypoint-initdb.d  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
 root@2332e83dae7e:/# psql -U adeel -d mydatabase
+
 psql (17.1 (Debian 17.1-1.pgdg120+1))
 Type "help" for help.
 
@@ -46,8 +50,11 @@ mydatabase=# CREATE TABLE students (
     age INT,
     class VARCHAR(50)
 );
+
 CREATE TABLE
+
 mydatabase=# \dt
+
          List of relations
  Schema |   Name   | Type  | Owner
 --------+----------+-------+-------
@@ -55,16 +62,22 @@ mydatabase=# \dt
 (1 row)
 
 mydatabase=# INSERT INTO students (name, age, class) VALUES ('Ali', 20, 'BSCS');
+
 INSERT 0 1
+
 mydatabase=# SELECT * FROM students;
+
  id | name | age | class
 ----+------+-----+-------
   1 | Ali  |  20 | BSCS
 (1 row)
 
 mydatabase=# INSERT INTO students (name,age,class) VALUE ('Adeel','22','BSCS')
+
 mydatabase-# INSERT INTO students (name,age,class) VALUES ('Adeel', '22', 'BSCS')
+
 mydatabase-# \dt
+
          List of relations
  Schema |   Name   | Type  | Owner
 --------+----------+-------+-------
@@ -72,24 +85,32 @@ mydatabase-# \dt
 (1 row)
 
 mydatabase-# SELECT * FROM students
+
 mydatabase-# SELECT * FROM students;
+
 ERROR:  syntax error at or near "VALUE"
 LINE 1: INSERT INTO students (name,age,class) VALUE ('Adeel','22','B...)
                                               ^
 mydatabase=# SELECT * FROM students;
+
  id | name | age | class
 ----+------+-----+-------
   1 | Ali  |  20 | BSCS
 (1 row)
 
 mydatabase=# INSERT INTO students (name,age,class) VALUES ('Adeel', '22', 'BSCS')
+
 mydatabase-# SELECT * FROM students;
+
 ERROR:  syntax error at or near "SELECT"
 LINE 2: SELECT * FROM students;
         ^
 mydatabase=# INSERT INTO students (name,age,class) VALUES ('Adeel', '22', 'BSCS');
+
 INSERT 0 1
+
 mydatabase=# SELECT * FROM students;
+
  id | name  | age | class
 ----+-------+-----+-------
   1 | Ali   |  20 | BSCS
@@ -97,8 +118,11 @@ mydatabase=# SELECT * FROM students;
 (2 rows)
 
 mydatabase=# CREATE TABLE teachers ( id SERIAL PRIMARY KEY, name VARCHAR(100), age INT, class VARCHAR(100) );
+
 CREATE TABLE
+
 mydatabase=# \dt
+
          List of relations
  Schema |   Name   | Type  | Owner
 --------+----------+-------+-------
@@ -107,36 +131,52 @@ mydatabase=# \dt
 (2 rows)
 
 mydatabase=# INSERT INTO teachers (name,age,class) VALUES ('Naveed',22,'BSCS-01');
+
 INSERT 0 1
+
 mydatabase=# SELECT * FROM teachers
+
 mydatabase-# SELECT * FROM teachers;
+
 ERROR:  syntax error at or near "SELECT"
 LINE 2: SELECT * FROM teachers;
         ^
 mydatabase=# SELECT * FROM teachers;
+
  id |  name  | age |  class
 ----+--------+-----+---------
   1 | Naveed |  22 | BSCS-01
 (1 row)
 
 mydatabase=# SELECT * FROM students WHERE id=2;
+
  id | name  | age | class
 ----+-------+-----+-------
   2 | Adeel |  22 | BSCS
 (1 row)
 
 mydatabase=# \q
+
 root@2332e83dae7e:/# ls
+
 bin  boot  dev  docker-entrypoint-initdb.d  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+
 root@2332e83dae7e:/# docker exec -it my-postgres bash
+
 bash: docker: command not found
 root@2332e83dae7e:/# psql -U adeel -q database
 psql: error: connection to server on socket "/var/run/postgresql/.s.PGSQL.5432" failed: FATAL:  database "database" does not exist
+
 root@2332e83dae7e:/# paql -U adeel -q mydatabase
+
 bash: paql: command not found
+
 root@2332e83dae7e:/# psql -U adeel -q mydatabase
+
 mydatabase=# /dt
+
 mydatabase-# \dt
+
          List of relations
  Schema |   Name   | Type  | Owner
 --------+----------+-------+-------
@@ -145,12 +185,16 @@ mydatabase-# \dt
 (2 rows)
 
 mydatabase-# SELECT * FROM students
+
 mydatabase-# SELECT * FROM students;
+
 ERROR:  syntax error at or near "/"
 LINE 1: /dt
         ^
 mydatabase=# ^C
+
 mydatabase=# SELECT * FROM students;
+
  id | name  | age | class
 ----+-------+-----+-------
   1 | Ali   |  20 | BSCS
@@ -158,6 +202,7 @@ mydatabase=# SELECT * FROM students;
 (2 rows)
 
 mydatabase=# SELECT * FROM students LIMIT 2;
+
  id | name  | age | class
 ----+-------+-----+-------
   1 | Ali   |  20 | BSCS
@@ -165,15 +210,20 @@ mydatabase=# SELECT * FROM students LIMIT 2;
 (2 rows)
 
 mydatabase=# SELECT * FROM students LIMIT 1;
+
  id | name | age | class
 ----+------+-----+-------
   1 | Ali  |  20 | BSCS
 (1 row)
 
 mydatabase=# INSERT INTO students(name,age,class) VALUES ('naveed','25','BSIT');
+
 mydatabase=# ^C
+
 mydatabase=# INSERT INTO students (name,age,class) VALUES ('Naveed', '25', 'BSIT');
+
 mydatabase=# SELECT * FROM students;
+
  id |  name  | age | class
 ----+--------+-----+-------
   1 | Ali    |  20 | BSCS
@@ -183,11 +233,14 @@ mydatabase=# SELECT * FROM students;
 (4 rows)
 
 mydatabase=# SELECT * FROM students LIKE 'A%';
+
 ERROR:  syntax error at or near "LIKE"
 LINE 1: SELECT * FROM students LIKE 'A%';
                                ^
 mydatabase=# ^C
+
 mydatabase=# SELECT * FROM students WHERE name LIKE 'A%';
+
  id | name  | age | class
 ----+-------+-----+-------
   1 | Ali   |  20 | BSCS
@@ -200,7 +253,9 @@ mydatabase=# CREATE TABLE moniters (
     age INT,
     class VARCHAR(50)
 );
+
 mydatabase=# \dt
+
          List of relations
  Schema |   Name   | Type  | Owner
 --------+----------+-------+-------
@@ -217,11 +272,14 @@ mydatabase=# SELECT * FROM moniters;
 (1 row)
 
 mydatabase=# INSERT INTO moniters(name,age,class) VALUES ('Ahmad',20,'BSIT');
+
 ERROR:  duplicate key value violates unique constraint "moniters_name_key"
 DETAIL:  Key (name)=(Ahmad) already exists.
 mydatabase=# ^C
 mydatabase=# INSERT INTO moniters(name,age,class) VALUES ('ahmad',20,'BSIT');
+
 mydatabase=# SELECT * FROM moniters;
+
  id | name  | age | class
 ----+-------+-----+-------
   1 | Ahmad |  20 | BSIT
@@ -229,7 +287,9 @@ mydatabase=# SELECT * FROM moniters;
 (2 rows)
 
 mydatabase=# DROP TABLE moniters;
+
 mydatabase=# \dt
+
          List of relations
  Schema |   Name   | Type  | Owner
 --------+----------+-------+-------
